@@ -1,0 +1,15 @@
+{
+  "en": {
+    "component_headline": "Buy Bitcoin with card",
+    "order_status_status": "{status, select, awaiting_transfer_in {is waiting for payment} processing {is being processed} reviewing {is under review} completed {is complete} completed_test {is complete (test)} cancelled {has been cancelled} rejected {was rejected} expired {has expired}}",
+    "sell_order_status_status": "{status, select, awaiting_transfer_in {is waiting for transaction confirmation} processing {is being processed} reviewing {is under review} completed {is complete} completed_test {is complete (test)} cancelled {has been cancelled} rejected {was rejected} expired {has expired}}",
+    "order_status_trade_id_label": "Coinify Trade ID:",
+    "order_status_trade_id": "#{id}",
+    "order_status_ist_id_label": "iSignThis ID:",
+    "order_status_ist_id": "{id}",
+    "order_status_date_created_label": "Date initialized:",
+    "order_status_transferout_address_label": "Receiving wallet:",
+    "order_status_transferout_address": "{address}",
+    "trade_history_trade_status": "{status, select, awaiting_transfer_in {Waiting for payment} processing {Processing} reviewing {Under review} completed {Completed} completed_test {Completed (test)} cancelled {Cancelled} rejected {Rejected} expired {Expired}}"
+  }
+}

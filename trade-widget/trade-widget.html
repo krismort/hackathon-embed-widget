@@ -1,0 +1,80 @@
+<!-- Use this to test the flow where purchasing with card triggers a kyc flow -->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>coinify-trade Demo</title>
+
+  <style type="text/css">
+    .widget-iframe-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+
+  <script>
+    window.Polymer = { dom: 'shadow' };
+    // Do Polymer feature detection and polyfill if needed
+    (function () {
+      if ( !( 'registerElement' in document
+        && 'import' in document.createElement('link')
+        && 'content' in document.createElement('template') ) ) {
+        document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.5.2/webcomponents-lite.min.js">\x3C/script>');
+      }
+    })();
+  </script>
+
+  <!-- Import component -->
+  <link rel="import" href="dist/coinify-buy.html">
+</head>
+
+<body>
+  <script type="text/javascript" >
+    var XHR = new XMLHttpRequest();
+    var FD  = new FormData();
+    const data = {
+      grant_type: "password",
+      email: 'kmo+1trade@coinify.com',
+      password: '1Q2w3e4r5t',
+      partnerId: 11
+    };
+    for(name in data) {
+      FD.append(name, data[name]);
+    }
+    XHR.addEventListener('load', function(event) {
+      const resp = JSON.parse(event.target.responseText );
+      console.log( 'Yeah! Data sent and response loaded.' , resp );
+      const baseurl = "https://app-api.sandbox.coinify.com";
+      const token = resp.access_token;
+      console.log("Adding coinify-buy component");
+      document.body.innerHTML += '<div class="widget-iframe-container"><coinify-buy access-token="' + token + '" coinify-api-base-url="' + baseurl + '"></coinify-buy></div>';
+    });
+    XHR.addEventListener('error', function(event) {
+      alert('Oops! Something went wrong. Could not log in.' );
+    });
+    XHR.open('POST', 'https://app-api.sandbox.coinify.com/auth');
+    XHR.send(FD);
+
+    var lastHeight = null;
+    window.setInterval( () => {
+      var body = document.body,
+      html = document.documentElement;
+      var h = Math.max( body.scrollHeight, body.offsetHeight, 
+        html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+      if ( h === lastHeight ) {
+        //console.log("Ignore last height....");
+        return;
+      }
+      lastHeight = h;
+      //console.log("LAST HEIGHT :" + lastHeight, " window.parent ", window.parent );
+      window.parent.postMessage( "IFRAME:" + JSON.stringify({height: lastHeight, type: 'resize'}), "*" );
+    }, 50 );
+  </script>
+</body>
+
+</html>
